@@ -27,7 +27,7 @@
         <dependency>
             <groupId>com.github.Mat1337</groupId>
             <artifactId>jprocessor</artifactId>
-            <version>1.2</version>
+            <version>1.4.9</version>
         </dependency>
         <dependency>
             <groupId>com.google.code.gson</groupId>
