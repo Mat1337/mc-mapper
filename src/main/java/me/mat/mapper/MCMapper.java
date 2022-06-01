@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import me.mat.jprocessor.JProcessor;
-import me.mat.jprocessor.jar.MemoryJar;
+import me.mat.jprocessor.jar.memory.MemoryJar;
 import me.mat.jprocessor.mappings.MappingLoadException;
 import me.mat.jprocessor.mappings.MappingManager;
 import me.mat.jprocessor.mappings.MappingType;
