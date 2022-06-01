@@ -6,7 +6,7 @@
 
     <groupId>me.mat</groupId>
     <artifactId>mc-mapper</artifactId>
-    <version>1.1.1</version>
+    <version>1.1.2</version>
 
     <name>mc-mapper</name>
     <description>Unmaps Minecraft jar with official mappings</description>
@@ -27,7 +27,7 @@
         <dependency>
             <groupId>com.github.Mat1337</groupId>
             <artifactId>jprocessor</artifactId>
-            <version>1.5.0</version>
+            <version>1.5.2</version>
         </dependency>
         <dependency>
             <groupId>com.google.code.gson</groupId>
