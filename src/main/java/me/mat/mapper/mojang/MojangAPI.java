@@ -5,11 +5,7 @@ import lombok.RequiredArgsConstructor;
 import me.mat.mapper.mojang.version.VersionsManifest;
 import me.mat.mapper.util.WebUtil;
 
-import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.net.URL;
 
 @RequiredArgsConstructor
 public enum MojangAPI {

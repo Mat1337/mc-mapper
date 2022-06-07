@@ -8,6 +8,7 @@ import me.mat.jprocessor.jar.memory.MemoryJar;
 import me.mat.jprocessor.mappings.MappingLoadException;
 import me.mat.jprocessor.mappings.MappingManager;
 import me.mat.jprocessor.mappings.MappingType;
+import me.mat.mapper.forge.ForgeAPI;
 import me.mat.mapper.mojang.MojangAPI;
 import me.mat.mapper.mojang.version.Version;
 import me.mat.mapper.mojang.version.VersionsManifest;
@@ -38,6 +39,8 @@ public class MCMapper extends Thread {
     @Getter
     private Version.Manifest currentVersion;
 
+    private boolean isForge;
+
     @Override
     public void run() {
         // setup the workspace
@@ -54,7 +57,7 @@ public class MCMapper extends Thread {
         // load the mappings into the memory
         MappingManager mappingManager;
         try {
-            mappingManager = JProcessor.Mapping.load(memoryJar, mappingsFile, MappingType.PROGUARD);
+            mappingManager = JProcessor.Mapping.load(memoryJar, mappingsFile, isForge ? MappingType.SRG : MappingType.PROGUARD);
         } catch (MappingLoadException e) {
             throw new RuntimeException(e);
         }
@@ -83,7 +86,7 @@ public class MCMapper extends Thread {
         }
     }
 
-    String setupWorkspace() {
+    private String setupWorkspace() {
         // log to console that api is being initialized
         System.out.println("[INFO]: Initializing MojangAPI");
 
@@ -109,14 +112,23 @@ public class MCMapper extends Thread {
             WebUtil.download(currentVersion.downloads.client.url, clientJar);
         }
 
-        // define the mappings file
-        mappingsFile = new File(workspaceDirectory, version.id + ".mappings");
+        // if the version does not contain mojang mappings use for mappings
+        if (currentVersion.downloads.mappings == null) {
+            // load the mappings file
+            this.mappingsFile = ForgeAPI.MAPPINGS.setup(new File(workspaceDirectory, "forge"), version.id);
 
-        // if the mappings file does not exist
-        if (!mappingsFile.exists()) {
+            // update the is forge flag
+            this.isForge = true;
+        } else {
+            // define the mappings file
+            mappingsFile = new File(workspaceDirectory, version.id + ".mappings");
 
-            // download the mappings file
-            WebUtil.download(currentVersion.downloads.mappings.url, mappingsFile);
+            // if the mappings file does not exist
+            if (!mappingsFile.exists()) {
+
+                // download the mappings file
+                WebUtil.download(currentVersion.downloads.mappings.url, mappingsFile);
+            }
         }
 
         // return the version id
